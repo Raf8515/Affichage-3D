@@ -21,8 +21,8 @@ ax2 = fig.add_subplot(122, projection='3d')
 def f(x, y):
     return np.sin(np.sqrt(x ** 2 + y ** 2))
 
-x = np.linspace(-6, 6, 30)
-y = np.linspace(-6, 6, 30)
+x = np.linspace(-10, 10, 100)
+y = np.linspace(-10, 10, 100)
 X, Y = np.meshgrid(x, y)
 Z = f(X, Y)
 
@@ -33,16 +33,25 @@ ax2.set_xlabel('x', fontsize=12)
 ax2.set_ylabel('y', fontsize=12)
 ax2.set_zlabel('z', fontsize=12)
 
+grid_visible = True
+axes_visible = True
+
 def toggle_grid(event):
-    ax1.grid(not ax1._axis3don)
-    ax2.grid(not ax2._axis3don)
+    global grid_visible
+    grid_visible = not grid_visible
+    ax1.grid(visible=grid_visible)
+    ax2.grid(visible=grid_visible)
     plt.draw()
 
 def toggle_axes(event):
-    ax1._axis3don = not ax1._axis3don
-    ax2._axis3don = not ax2._axis3don
-    ax1.axis(ax1._axis3don)
-    ax2.axis(ax2._axis3don)
+    global axes_visible
+    axes_visible = not axes_visible
+    if axes_visible:
+        ax1.set_axis_on()
+        ax2.set_axis_on()
+    else:
+        ax1.set_axis_off()
+        ax2.set_axis_off()
     plt.draw()
 
 ax_toggle_grid = plt.axes([0.35, 0.02, 0.1, 0.075])
@@ -55,4 +64,5 @@ btn_toggle_grid.on_clicked(toggle_grid)
 btn_toggle_axes.on_clicked(toggle_axes)
 
 plt.show()
+
 
